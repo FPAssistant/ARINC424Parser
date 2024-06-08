@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "FPAssistantArinc424Parser (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "FPAssistantArinc424Parser (Unpackaged)": {
+      "commandName": "Project"
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    }
+  }
+}

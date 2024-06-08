@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34928.147
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FPAssistantArinc424Parser", "FPAssistantArinc424Parser.csproj", "{378E82E0-7F7B-43A7-9256-57377F1FBB4A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM64 = Debug|ARM64
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM64 = Release|ARM64
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{378E82E0-7F7B-43A7-9256-57377F1FBB4A}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{378E82E0-7F7B-43A7-9256-57377F1FBB4A}.Debug|ARM64.Build.0 = Debug|ARM64
+		{378E82E0-7F7B-43A7-9256-57377F1FBB4A}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{378E82E0-7F7B-43A7-9256-57377F1FBB4A}.Debug|x64.ActiveCfg = Debug|x64
+		{378E82E0-7F7B-43A7-9256-57377F1FBB4A}.Debug|x64.Build.0 = Debug|x64
+		{378E82E0-7F7B-43A7-9256-57377F1FBB4A}.Debug|x64.Deploy.0 = Debug|x64
+		{378E82E0-7F7B-43A7-9256-57377F1FBB4A}.Debug|x86.ActiveCfg = Debug|x86
+		{378E82E0-7F7B-43A7-9256-57377F1FBB4A}.Debug|x86.Build.0 = Debug|x86
+		{378E82E0-7F7B-43A7-9256-57377F1FBB4A}.Debug|x86.Deploy.0 = Debug|x86
+		{378E82E0-7F7B-43A7-9256-57377F1FBB4A}.Release|ARM64.ActiveCfg = Release|ARM64
+		{378E82E0-7F7B-43A7-9256-57377F1FBB4A}.Release|ARM64.Build.0 = Release|ARM64
+		{378E82E0-7F7B-43A7-9256-57377F1FBB4A}.Release|ARM64.Deploy.0 = Release|ARM64
+		{378E82E0-7F7B-43A7-9256-57377F1FBB4A}.Release|x64.ActiveCfg = Release|x64
+		{378E82E0-7F7B-43A7-9256-57377F1FBB4A}.Release|x64.Build.0 = Release|x64
+		{378E82E0-7F7B-43A7-9256-57377F1FBB4A}.Release|x64.Deploy.0 = Release|x64
+		{378E82E0-7F7B-43A7-9256-57377F1FBB4A}.Release|x86.ActiveCfg = Release|x86
+		{378E82E0-7F7B-43A7-9256-57377F1FBB4A}.Release|x86.Build.0 = Release|x86
+		{378E82E0-7F7B-43A7-9256-57377F1FBB4A}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {95027252-7440-48B9-9E2A-70A0C572CD77}
+	EndGlobalSection
+EndGlobal
