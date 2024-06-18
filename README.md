@@ -1,4 +1,4 @@
-# FPAssistantArinc424Parser
+# FPAssistant ARINC 424 Parser
 
 This is an example of how to use the ARINC 424 Parser built,as a API module, within the FPAssistant Suite SDK; a Microsoft .NET library of API's specifically for aviation software developers.
 
