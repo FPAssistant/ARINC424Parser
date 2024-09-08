@@ -1,4 +1,5 @@
 using FpAssistantCore.Arinc424;
+using FpAssistantCore.Arinc424.Records;
 using FpAssistantCore.General;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -37,14 +38,62 @@ namespace FPAssistantArinc424Parser
             Arinc424Io arinc424Io = new();
             arinc424Io.Open(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Arinc424Data\FAACIFP18.A424"));
 
-            // Display information from ARINC 424 navigation file
-            AirportsLabel.Text = "Airport Count : ";
-            AirportsCount.Text = arinc424Io.Arinc424Data.Airports.Count.ToString();
+            PopulateTreeView(ref arinc424Io);
         }
 
         public readonly Arinc424Io arinc424Io = null; // Create instance of ARINC 424 parser
 
+        void PopulateTreeView(ref Arinc424Io arinc424Io)
+        {
+            Arinc424TreeView.RootNodes.Clear();
+            IList<TreeViewNode> rootNodes = Arinc424TreeView.RootNodes;
+
+            TreeViewNode treeViewNodeAirports = new TreeViewNode();
+            treeViewNodeAirports.Content = "Airports (" + arinc424Io.Arinc424Data.Airports.Count.ToString() + ")";
+
+            foreach (Airport airport in arinc424Io.Arinc424Data.Airports)
+            {
+                NodeData nodeData = new NodeData(airport.AirportName + " " + airport.AirportICAOIdentifier, airport.Id);
+                TreeViewNode treeViewNode = new();
+                treeViewNode.Content = nodeData; // airport.AirportName + " "+ airport.AirportICAOIdentifier; 
+                treeViewNodeAirports.Children.Add(treeViewNode);
+            }
 
 
+            rootNodes.Add(treeViewNodeAirports);
+        }
+
+        private void Arinc424TreeView_ItemInvoked(TreeView sender, TreeViewItemInvokedEventArgs args)
+        {
+            TreeViewNode treeViewNode = args.InvokedItem as TreeViewNode;
+            if (treeViewNode != null)
+            {
+                NodeData nodeData = treeViewNode.Content as NodeData;
+                if ( (nodeData !=null) )
+                {
+                    
+                }
+            }
+        }
+
+        private class NodeData
+        {
+            private string _Description = string.Empty;
+            private Guid _Guid = Guid.Empty;
+
+            public NodeData(string description, Guid guid)
+            {
+                _Description = description;
+                _Guid = guid;  
+            }
+
+            public override string ToString()
+            {
+                return _Description;
+            }
+
+            public string Description { get { return _Description; } }
+            public Guid Guid { get { return _Guid; } }
+        }
     }
 }
