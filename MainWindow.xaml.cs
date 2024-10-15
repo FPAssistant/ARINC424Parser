@@ -53,13 +53,11 @@ namespace FPAssistantArinc424Parser
 
             foreach (Airport airport in arinc424Io.Arinc424Data.Airports)
             {
-                NodeData nodeData = new NodeData(airport.AirportName + " " + airport.AirportICAOIdentifier, airport.Id);
+                NodeData nodeData = new(airport.AirportName + " " + airport.AirportICAOIdentifier, airport.Id);
                 TreeViewNode treeViewNode = new();
                 treeViewNode.Content = nodeData; // airport.AirportName + " "+ airport.AirportICAOIdentifier; 
                 treeViewNodeAirports.Children.Add(treeViewNode);
             }
-
-
             rootNodes.Add(treeViewNodeAirports);
         }
 
@@ -71,7 +69,8 @@ namespace FPAssistantArinc424Parser
                 NodeData nodeData = treeViewNode.Content as NodeData;
                 if ( (nodeData !=null) )
                 {
-                    
+                    //BaseRecord baseRecord = new BaseRecord()
+                    //arinc424Io.Arinc424Data.FindByGuid(nodeData.Guid,)
                 }
             }
         }
