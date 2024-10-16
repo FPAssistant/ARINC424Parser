@@ -48,14 +48,18 @@ namespace FPAssistantArinc424Parser
             Arinc424TreeView.RootNodes.Clear();
             IList<TreeViewNode> rootNodes = Arinc424TreeView.RootNodes;
 
-            TreeViewNode treeViewNodeAirports = new TreeViewNode();
-            treeViewNodeAirports.Content = "Airports (" + arinc424Io.Arinc424Data.Airports.Count.ToString() + ")";
+            TreeViewNode treeViewNodeAirports = new()
+            {
+                Content = "Airports (" + arinc424Io.Arinc424Data.Airports.Count.ToString() + ")"
+            };
 
             foreach (Airport airport in arinc424Io.Arinc424Data.Airports)
             {
                 NodeData nodeData = new(airport.AirportName + " " + airport.AirportICAOIdentifier, airport.Id);
-                TreeViewNode treeViewNode = new();
-                treeViewNode.Content = nodeData; // airport.AirportName + " "+ airport.AirportICAOIdentifier; 
+                TreeViewNode treeViewNode = new()
+                {
+                    Content = nodeData // airport.AirportName + " "+ airport.AirportICAOIdentifier; 
+                };
                 treeViewNodeAirports.Children.Add(treeViewNode);
             }
             rootNodes.Add(treeViewNodeAirports);
@@ -75,16 +79,10 @@ namespace FPAssistantArinc424Parser
             }
         }
 
-        private class NodeData
+        private class NodeData(string description, Guid guid)
         {
-            private string _Description = string.Empty;
-            private Guid _Guid = Guid.Empty;
-
-            public NodeData(string description, Guid guid)
-            {
-                _Description = description;
-                _Guid = guid;  
-            }
+            private readonly string _Description = description;
+            private readonly Guid _Guid = guid;
 
             public override string ToString()
             {
