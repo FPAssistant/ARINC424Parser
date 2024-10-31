@@ -50,5 +50,7 @@ namespace FPAssistantArinc424Parser
         }
 
         private Window m_window;
+
+        public  Arinc424Io arinc424Io = null;
     }
 }
