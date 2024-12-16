@@ -13,6 +13,10 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Documents;
+
+using Windows.UI.Text;
+using Windows.UI.StartScreen;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Security.Cryptography.Core;
@@ -20,9 +24,6 @@ using Windows.Security.Cryptography.Core;
 using FpAssistantCore.Arinc424;
 using FpAssistantCore.Arinc424.Records;
 using FpAssistantCore.General;
-using Windows.UI.StartScreen;
-using Microsoft.UI.Xaml.Documents;
-using Windows.UI.Text;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -35,6 +36,10 @@ namespace FPAssistantArinc424Parser
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        #region Const strings for Tree Nodes
+        const string Approaches = "Approaches";
+        #endregion
+
         public MainWindow()
         {
             this.InitializeComponent();
@@ -60,14 +65,25 @@ namespace FPAssistantArinc424Parser
             #region Header
             TreeViewNode treeViewNodeHeader = new()
             {
-                Content = "Header (1)"
+                Content = "Header (2)"
             };
-            NodeData nodeData = new("Header01", arinc424Io.Arinc424Data.Header01.Id);
-            TreeViewNode treeViewNode = new()
+            NodeData nodeData = new("Header01", arinc424Io.Arinc424Data.Header01.Id, Arinc424DataTypes.Header01);
+            TreeViewNode treeViewNodeHeader01 = new()
             {
                 Content = nodeData
             };
-            treeViewNodeHeader.Children.Add(treeViewNode);
+            treeViewNodeHeader.Children.Add(treeViewNodeHeader01);
+
+            foreach (var header02 in arinc424Io.Arinc424Data.Header02s)
+            {
+                nodeData = new("Header02", header02.Id, Arinc424DataTypes.Header02);
+                TreeViewNode treeViewNodeHeader02 = new()
+                {
+                    Content = nodeData
+                };
+                treeViewNodeHeader.Children.Add(treeViewNodeHeader02);
+            }
+
 
             #endregion
 
@@ -79,12 +95,23 @@ namespace FPAssistantArinc424Parser
 
             foreach (Airport airport in arinc424Io.Arinc424Data.Airports)
             {
-                nodeData = new(airport.AirportName + " " + airport.AirportICAOIdentifier, airport.Id);
-                treeViewNode = new()
+                nodeData = new(airport.AirportName.Trim() + " - " + airport.AirportICAOIdentifier, airport.Id, Arinc424DataTypes.Airport);
+                TreeViewNode treeViewNodeAirport = new()
                 {
-                    Content = nodeData 
+                    Content = nodeData
                 };
-                treeViewNodeAirports.Children.Add(treeViewNode);
+
+                nodeData = new(Approaches, airport.Id, Arinc424DataTypes.ApproachesNode); // Add tree node for Approaches using Airport id
+                TreeViewNode treeViewNodeApproaches = new()
+                {
+                    Content = nodeData
+                };
+                treeViewNodeAirport.Children.Add(treeViewNodeApproaches);
+
+
+                treeViewNodeAirports.Children.Add(treeViewNodeAirport);
+                //System.Diagnostics.Debug.WriteLine(i.ToString() + " " + airport.AirportName + " " + airport.AirportICAOIdentifier);
+
             }
             #endregion
 
@@ -100,69 +127,139 @@ namespace FPAssistantArinc424Parser
                 NodeData nodeData = treeViewNode.Content as NodeData;
                 if ((nodeData != null))
                 {
-                    BaseRecord baseRecord = new BaseRecord("");
-
-                    if (arinc424Io.Arinc424Data.FindByGuid(nodeData.Guid, ref baseRecord) == true)
+                    if (nodeData.Arinc424DataType == Arinc424DataTypes.ApproachesNode)
                     {
-                        Dictionary<string, string> propertyNamesAndValues = baseRecord.PropertyNameAndValues();
-                        Arinc424DataGrid.Children.Clear();
+                        PopulateApproachesForAirport(nodeData.Guid);
+                    }
+                    else if (nodeData.Arinc424DataType == Arinc424DataTypes.Approach)
+                    {
+                        PopulateApproachSegment(nodeData.Guid, nodeData.Description);
+                    }
+                    else
+                    {
+                        BaseRecord baseRecord = new("");
 
-                        TextBlock col1Header = new()
+                        if (arinc424Io.Arinc424Data.FindByGuid(nodeData.Guid, ref baseRecord) == true)
                         {
-                            HorizontalAlignment = HorizontalAlignment.Left,
-                            VerticalAlignment = VerticalAlignment.Center,
-                            Text = "ARINC 424 Field Name",
-                            
-                        };
-                        Grid.SetColumn(col1Header, 0);
-                        Grid.SetRow(col1Header, 0);
+                            Dictionary<string, string> propertyNamesAndValues = baseRecord.PropertyNameAndValues();
+                            Arinc424DataGrid.Children.Clear();
 
-                        TextBlock col2Header = new()
-                        {
-                            HorizontalAlignment = HorizontalAlignment.Left,
-                            VerticalAlignment = VerticalAlignment.Center,
-                            Text = "ARINC 424 Value"
-                        };
-                        Grid.SetColumn(col2Header, 1);
-                        Grid.SetRow(col2Header, 0);
-
-                        Arinc424DataGrid.Children.Add(col1Header);
-                        Arinc424DataGrid.Children.Add(col2Header);
-
-                        int i = 0;
-                        foreach (KeyValuePair<string, string> propertyNameValue in propertyNamesAndValues ) 
-                        {
-                            TextBlock col1 = new()
+                            TextBlock col1Header = new()
                             {
                                 HorizontalAlignment = HorizontalAlignment.Left,
                                 VerticalAlignment = VerticalAlignment.Center,
-                                Text = propertyNameValue.Key
-                            };
-                            Grid.SetColumn(col1, 0);
-                            Grid.SetRow(col1, i+1);
+                                Text = "ARINC 424 Field Name",
 
-                            TextBlock col2 = new()
+                            };
+                            Grid.SetColumn(col1Header, 0);
+                            Grid.SetRow(col1Header, 0);
+
+                            TextBlock col2Header = new()
                             {
                                 HorizontalAlignment = HorizontalAlignment.Left,
                                 VerticalAlignment = VerticalAlignment.Center,
-                                Text = propertyNameValue.Value
+                                Text = "ARINC 424 Value"
                             };
-                            Grid.SetColumn(col2, 1);
-                            Grid.SetRow(col2, i+1);
+                            Grid.SetColumn(col2Header, 1);
+                            Grid.SetRow(col2Header, 0);
 
-                            Arinc424DataGrid.Children.Add(col1);
-                            Arinc424DataGrid.Children.Add(col2);
-                            i++;
+                            Arinc424DataGrid.Children.Add(col1Header);
+                            Arinc424DataGrid.Children.Add(col2Header);
+
+                            int i = 0;
+                            foreach (KeyValuePair<string, string> propertyNameValue in propertyNamesAndValues)
+                            {
+                                TextBlock col1 = new()
+                                {
+                                    HorizontalAlignment = HorizontalAlignment.Left,
+                                    VerticalAlignment = VerticalAlignment.Center,
+                                    Text = propertyNameValue.Key
+                                };
+                                Grid.SetColumn(col1, 0);
+                                Grid.SetRow(col1, i + 1);
+
+                                TextBlock col2 = new()
+                                {
+                                    HorizontalAlignment = HorizontalAlignment.Left,
+                                    VerticalAlignment = VerticalAlignment.Center,
+                                    Text = propertyNameValue.Value
+                                };
+                                Grid.SetColumn(col2, 1);
+                                Grid.SetRow(col2, i + 1);
+
+                                Arinc424DataGrid.Children.Add(col1);
+                                Arinc424DataGrid.Children.Add(col2);
+                                i++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            void PopulateApproachSegment(Guid airportId, string procedureIdentifier)
+            {
+                BaseRecord baseRecord = new("");
+
+                if (arinc424Io.Arinc424Data.FindByGuid(airportId, ref baseRecord) == true)
+                {
+                    Airport airport = baseRecord as Airport;
+                    if (airport != null)
+                    {
+                        AirportApproachHelper airportApproachHelper = new(airport.AirportICAOIdentifier, ref arinc424Io.Arinc424DataByRef());
+                        List<AirportApproach> airportApproaches = airportApproachHelper.GetAirportApproachByProcedureIdentifier(procedureIdentifier);
+                        if (airportApproaches.Count > 0)
+                        {
+                            int i = 10;
+                            foreach (AirportApproach airportApproach in airportApproaches)
+                            {
+                                NodeData nodeData = new(i.ToString() , airportApproach.Id, Arinc424DataTypes.ARINC424Record);
+                                TreeViewNode treeViewNodeApproachProcedureIdentifierParts = new()
+                                {
+                                    Content = nodeData
+                                };
+                                i += 10;
+                                treeViewNode.Children.Add(treeViewNodeApproachProcedureIdentifierParts);
+                            }
+                            Arinc424TreeView.Expand(treeViewNode);
+                        }
+                    }
+                }
+            }
+
+            void PopulateApproachesForAirport(Guid airportId)
+            {
+                BaseRecord baseRecord = new("");
+
+                if (arinc424Io.Arinc424Data.FindByGuid(airportId, ref baseRecord) == true)
+                {
+                    Airport airport = baseRecord as Airport;
+                    if (airport != null)
+                    {
+                        AirportApproachHelper airportApproachHelper = new(airport.AirportICAOIdentifier, ref arinc424Io.Arinc424DataByRef());
+                        List<string> airportApproaches = airportApproachHelper.GetAirportApproachProcedureIdentifiers();
+                        if (airportApproaches.Count > 0)
+                        {
+                            foreach (string item in airportApproaches)
+                            {
+                                NodeData nodeData = new(item, airport.Id, Arinc424DataTypes.Approach);
+                                TreeViewNode treeViewNodeApproachProcedureIdentifier = new()
+                                {
+                                    Content = nodeData
+                                };
+                                treeViewNode.Children.Add(treeViewNodeApproachProcedureIdentifier);
+                            }
+                            Arinc424TreeView.Expand(treeViewNode);
                         }
                     }
                 }
             }
         }
 
-        private class NodeData(string description, Guid guid)
+        private class NodeData(string description, Guid guid, Arinc424DataTypes arinc424DataType)
         {
             private readonly string _Description = description;
             private readonly Guid _Guid = guid;
+            private readonly Arinc424DataTypes _Arinc424DataType = arinc424DataType;
 
             public override string ToString()
             {
@@ -171,6 +268,18 @@ namespace FPAssistantArinc424Parser
 
             public string Description { get { return _Description; } }
             public Guid Guid { get { return _Guid; } }
+            public Arinc424DataTypes Arinc424DataType { get { return _Arinc424DataType; } }
+        }
+
+        private enum Arinc424DataTypes
+        {
+            ARINC424Record,
+            Airport,
+            ApproachesNode,
+            Approach,
+            HeadersNode,
+            Header01,
+            Header02
         }
     }
 }

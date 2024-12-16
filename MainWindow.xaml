@@ -9,11 +9,11 @@
     mc:Ignorable="d">
 
     <SplitView x:Name="splitView" PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
-           IsPaneOpen="True" OpenPaneLength="400" CompactPaneLength="48" DisplayMode="Inline">
+           IsPaneOpen="True" OpenPaneLength="400" CompactPaneLength="48" DisplayMode="CompactInline" >
         <SplitView.Pane>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <TreeView x:Name="Arinc424TreeView"  HorizontalAlignment="Left" Height="auto" Margin="10,32,0,0" VerticalAlignment="Top" Width="400" ItemInvoked="Arinc424TreeView_ItemInvoked" ScrollViewer.VerticalScrollBarVisibility="Visible" />
+            <TreeView x:Name="Arinc424TreeView"  HorizontalAlignment="Left" Height="auto" Margin="10,32,0,0" VerticalAlignment="Top" Width="380" ItemInvoked="Arinc424TreeView_ItemInvoked" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" />
         </StackPanel>
 
         </SplitView.Pane>
