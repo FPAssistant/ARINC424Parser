@@ -4,12 +4,17 @@ This is an example of how to use the ARINC 424 Parser built, as a API module, wi
 
 The ARINC 424 Parser API is a module that allows simple access to a ARINC 424 navigation data file by parsing the records into a series of .NET classes, records and objects. The full SDK documentation [click here](http://api.fpassistant.com/)
 
-This Windows desktop example is written in .NET 8 C# using the Microsoft Win UI 3.x tool (Windows SDK App) developed using Microsoft Visual Studio, other examples in this GitHub organisation use other Microsoft GUI tools (WinForms, etc).
+## About This Example and Technology used
+This Windows desktop example is written in .NET 10 C# using the Microsoft Win UI 3.x tool (Windows SDK App) developed using Microsoft Visual Studio, other examples in this GitHub organisation use other Microsoft GUI tools (WinForms, etc).
 
+
+## Getting Started
 This example will be worked on but if you need a specific feature or be shown how to access particular navigation data then please make contact and our dev team will help you.
 
 Below is a screen shot of the app showing the ARINC 424 Record types in the left pane and when clicking on a tree node, the ARINC 424 record data will be shown with the field decription and the value.
 
 ![Arinc424ParserAppExample](https://github.com/user-attachments/assets/948689d0-829d-41ac-8143-49069acace9c)
+
+The example will automatically open an ARINC 424 that come with the example and as this is not fully licensed, some ARINC 424 record will display as "No License found!"
 
 We can also assist with your software development so please contact us for any consultancy work.
