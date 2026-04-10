@@ -11,10 +11,12 @@ This Windows desktop example is written in .NET 10 C# using the Microsoft Win UI
 ## Getting Started
 This example will be worked on but if you need a specific feature or be shown how to access particular navigation data then please make contact and our dev team will help you.
 
-Below is a screen shot of the app showing the ARINC 424 Record types in the left pane and when clicking on a tree node, the ARINC 424 record data will be shown with the field decription and the value.
+Below is a screen shot of the app showing the ARINC 424 Record types in the left pane and when clicking on a tree node, the ARINC 424 record data will be shown with the field description and the value.
 
 ![Arinc424ParserAppExample](https://github.com/user-attachments/assets/948689d0-829d-41ac-8143-49069acace9c)
 
-The example will automatically open an ARINC 424 that come with the example and as this is not fully licensed, some ARINC 424 record will display as "No License found!"
+The example will automatically open an ARINC 424 that come with the example and as this is not fully licensed, some ARINC 424 record fields will display as "No License found!". There is a free trial license available for the ARINC 424 Parser API module, if you would like to try the full version of the ARINC 424 Parser then please contact us and we will provide you with a free trial license key.
+
+Currently only the Approach record types are shown but we will be adding more record types in the future, if you need help wit a specific record type to be added then please contact us.
 
 We can also assist with your software development so please contact us for any consultancy work.
